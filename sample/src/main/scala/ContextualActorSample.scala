@@ -1,10 +1,13 @@
 import DummyProtocol._
 import akka.actor._
 import akka.util.Timeout
+
 import scala.concurrent._
 import scala.concurrent.duration._
 import com.github.ktonga.akka.contextual.actor._
 import com.github.ktonga.akka.contextual.pattern.{ask, pipe}
+import io.yosemite.akka.contextual.actor.TracingActor
+
 import ExecutionContext.Implicits.global
 
 
@@ -55,7 +58,7 @@ class ActorA(val actorB: ActorRef) extends Actor with TracingActor {
 }
 
 class ActorB(val actorC: ActorRef) extends Actor with TracingActor {
-  import MessageContext._
+  import io.yosemite.akka.contextual.actor.MessageContext._
 
   def receive: Receive = {
     case int: Int => useInt(int)
@@ -84,9 +87,9 @@ class ActorC extends Actor with TracingActor {
 
 object Sample extends App {
 
-  import Implicits._
+  import io.yosemite.akka.contextual.actor.Implicits._
   import scala.util.Random
-  import MessageContext._
+  import io.yosemite.akka.contextual.actor.MessageContext._
 
   val system = ActorSystem("tracing-system")
 
